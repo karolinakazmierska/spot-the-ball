@@ -28,5 +28,28 @@
 }
 
 .A1 {
-    
+
+}
+
+.MessageBox {
+    position: absolute;
+    top: 1px;
+    background-color: red;
+    width: 600px;
+    height: 400px;
+    margin: 100px auto 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.MessageBox::after {
+    content: '';
+    width: 200px;
+    height: 200;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    height: 70px;
 }

@@ -7,9 +7,11 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentPhotoId: '',
+            currentPhoto: '',
+            currentPhotoBallRevealed: '',
             currentCorrectAnswer: '',
-            points: 0
+            points: 0,
+            didAnswerCorrectly: ''
         };
     }
 
@@ -26,7 +28,7 @@ class App extends Component {
         var answer = photosMap[photo].correct;
 
         this.setState({
-            currentPhotoId: photo,
+            currentPhoto: photo,
             currentCorrectAnswer: answer
         });
     }
@@ -39,15 +41,37 @@ class App extends Component {
             this.setState({
                 points: points + 1
             })
+            this.showAnswer(true);
+            // show the correct photo with congratulations message + some layover / disable buttons
         } else {
             console.log("Incorrect!")
+            this.showAnswer(false);
+            // show the correct photo with you had it wrong message + some layover / disable buttons
+        }
+        setTimeout(e => {
+            this.changePhoto();
+            this.setState({
+                didAnswerCorrectly: ''
+            })
+        }, 5000);
+    }
+
+    showAnswer(correct) {
+        if (correct) {
+            this.setState({
+                didAnswerCorrectly: true
+            })
+        } else {
+            this.setState({
+                didAnswerCorrectly: false
+            })
         }
     }
 
     render() {
         return (
             <div>
-                <Container photo={this.state.currentPhotoId} />
+                <Container photo={this.state.currentPhoto} answer={this.state.didAnswerCorrectly} photoRevealed={this.state.currentPhotoBallRevealed}/>
                 <Controls onClick={this.checkAnswer} />
             </div>
         );
@@ -62,8 +86,16 @@ class Container extends Component {
         super(props);
     }
     render() {
-        return <div className="Container">
+        var backgroundPhoto = `url(./photos/${this.props.photo}.png)`;
+        var backgroundPhotoBallRevealed = `url(./photos/${this.props.photoRevealed}.png)`;
+        return <div className="Container" style={{backgroundImage: backgroundPhoto}}>
             {this.props.photo}
+            { this.props.answer === true &&
+                <div className='MessageBox' style={{backgroundImage: backgroundPhotoBallRevealed}}>{'Correct'}</div>
+            }
+            { this.props.answer === false &&
+                <div className='MessageBox' style={{backgroundImage: backgroundPhotoBallRevealed}}>{'Incorrect'}</div>
+            }
         </div>
     }
 }
