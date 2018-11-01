@@ -1,21 +1,26 @@
+* {
+    font-family: "Open sans", Helvetica;
+    box-sizing: border-box;
+}
+
 .App {
   display: flex;
-
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .Container {
-    border: 1px solid red;
+    border: 8px solid rgba(255,255,255,0.9);
     width: 600px;
     height: 400px;
     margin: 100px auto 0 auto;
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
 }
 
 .ControlsContainer {
     width: 600px;
     margin: 10px auto;
-    border: 1px solid green;
     display: flex;
     justify-content: space-between;
 }
@@ -23,17 +28,30 @@
 .ControlsButton {
     width: 120px;
     height: 60px;
-    border: 1px solid blue;
+    background-color: rgba(50,83,19,0.85);
+    border: 4px solid white;
+    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+.ControlsButton:hover {
+    background-color: rgba(50,83,19,1);
+}
+.ControlsButton:active {
+    background-color: white;
 }
 
 .MessageBox {
     position: absolute;
-    top: 1px;
+    top: 0;
+    transform: translateX(-8px);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
+    border: 8px solid rgba(255,255,255,0.9);
     width: 600px;
     height: 400px;
     margin: 100px auto 0 auto;
@@ -53,34 +71,83 @@
     height: 70px;
 }
 
-.Timer {
+.Counter {
     position: absolute;
     top: 50px;
-    right: 50px;
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 4px solid black;
+    border: 5px solid white;
     border-radius: 50%;
+    background-color: rgba(50,83,19,0.5);
+    color: white;
+    font-size: 36px;
+}
+.Timer {
+    right: 50px;
+}
+.PointsCounter {
+    left: 50px;
 }
 
 .GameOver {
     width: 600px;
     height: 600px;
-    border: 1px solid black;
+    border-radius: 10px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    background-color: blue;
+    background-color: rgba(57,57,57,0.97);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    color: white;
+    font-size: 24px;
+    padding: 20px 50px;
+    text-align: center;
+}
+
+.GameOver div {
+    margin-bottom: 20px;
+}
+
+.GameOver div:first-child {
+    font-size: 50px;
 }
 
 .GameOver input {
     display: block;
+    margin-bottom: 50px;
+    width: 400px;
+    height: 40px;
+    padding: 10px 40px;
+    border: 2px solid white;
+    border-radius: 15px;
+    color: rgb(57,57,57);
+}
+
+.GameOver input:focus {
+    outline: none;
+    border: 3px solid green;
+    box-shadow: 0 0 10px #417a28
+}
+
+.GameOver button {
+    width: 240px;
+    height: 60px;
+    border: 4px solid rgba(255,255,255,0.8);
+    background-color: rgba(50,83,19,0.5);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    color: tint($btn-color);
+}
+
+.GameOver button:hover {
+    background-color: rgba(50,83,19,1);
+    border: 4px solid rgba(255,255,255,1);
 }

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import A1 from './photos/A1.png';
-import B1 from './photos/B1.png';
 import './App.css';
 import photosMap from './photo-map';
 
@@ -27,9 +25,8 @@ class App extends Component {
     }
 
     startRound() {
-        // set timeout: after it, call "finishRound function"
         this.setState({
-            timer: 5
+            timer: 300
         });
         this.timerID = setInterval(
             () => this.tick(),
@@ -83,7 +80,7 @@ class App extends Component {
             this.setState({
                 didAnswerCorrectly: ''
             })
-        }, 5000);
+        }, 3000);
     }
 
     showAnswer(correct) {
@@ -98,10 +95,20 @@ class App extends Component {
         }
     }
 
-    restartGame() {
-        // save username and points to local host
-        // clear points from state
-        // refresh the view / restart the game...?
+    // Save username & score to localHost and restart the game
+    restartGame = (inputValue) => {
+        var points = parseInt(this.state.points);
+        if (localStorage.getItem(inputValue)) {
+            if (points > parseInt(localStorage.getItem(inputValue))) {
+                localStorage.setItem(inputValue, points);
+            }
+        } else {
+            localStorage.setItem(inputValue, points);
+        }
+        this.setState({
+            points: 0,
+        })
+        this.startRound();
     }
 
     render() {
@@ -110,6 +117,7 @@ class App extends Component {
                 <Container photo={this.state.currentPhoto} answer={this.state.didAnswerCorrectly} photoRevealed={this.state.currentPhotoBallRevealed}/>
                 <Controls onClick={this.checkAnswer} />
                 <Timer time={this.state.timer} />
+                <PointsCounter points={this.state.points} />
                 <GameOver time={this.state.timer} onClick={this.restartGame}/>
             </div>
         );
@@ -141,31 +149,52 @@ class Container extends Component {
 function Controls(props) {
     return (
         <div className="ControlsContainer">
-            <div className="ControlsButton" onClick={props.onClick}>1</div>
-            <div className="ControlsButton" onClick={props.onClick}>2</div>
-            <div className="ControlsButton" onClick={props.onClick}>3</div>
-            <div className="ControlsButton" onClick={props.onClick}>4</div>
+            <a className="ControlsButton" onClick={props.onClick}>1</a>
+            <a className="ControlsButton" onClick={props.onClick}>2</a>
+            <a className="ControlsButton" onClick={props.onClick}>3</a>
+            <a className="ControlsButton" onClick={props.onClick}>4</a>
         </div>
     )
 }
 
 function Timer(props) {
     return (
-        <div className="Timer">{props.time}</div>
+        <div className="Timer Counter">{props.time}</div>
     )
 }
 
-function GameOver(props) {
-    if (props.time === 0) {
-        return (
-                <div className="GameOver">
-                    <div>Game Over</div>
-                    <div>Provide your username if you want to save your score:</div>
-                    <input></input>
-                    <button onClick={props.onClick}>Save & Continue playing</button>
-                </div>
+function PointsCounter(props) {
+    return (
+        <div className="PointsCounter Counter">{props.points}</div>
+    )
+}
+
+class GameOver extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            inputValue: ''
+        }
+    }
+
+    handleClick = () => {
+        this.props.onClick(this.state.inputValue);
+    }
+
+    updateInputValue = (e) => {
+        this.setState({
+            inputValue: e.target.value
+        });
+    }
+
+    render() {
+        return (this.props.time === 0 &&
+            <div className="GameOver">
+                <div>GAME OVER</div>
+                <div>Provide your username if you want to save your score:</div>
+                <input value={this.state.inputValue} onChange={this.updateInputValue} />
+                <button onClick={this.handleClick}>Save & continue playing</button>
+            </div>
         )
-    } else {
-        return null;
     }
 }
