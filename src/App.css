@@ -8,6 +8,8 @@
     width: 600px;
     height: 400px;
     margin: 100px auto 0 auto;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .ControlsContainer {
@@ -27,14 +29,11 @@
     align-items: center;
 }
 
-.A1 {
-
-}
-
 .MessageBox {
     position: absolute;
     top: 1px;
-    background-color: red;
+    background-repeat: no-repeat;
+    background-size: contain;
     width: 600px;
     height: 400px;
     margin: 100px auto 0 auto;
@@ -52,4 +51,36 @@
     top: 100%;
     left: 0;
     height: 70px;
+}
+
+.Timer {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid black;
+    border-radius: 50%;
+}
+
+.GameOver {
+    width: 600px;
+    height: 600px;
+    border: 1px solid black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: blue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.GameOver input {
+    display: block;
 }
