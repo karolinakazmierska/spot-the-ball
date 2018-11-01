@@ -12,7 +12,8 @@ class App extends Component {
             currentCorrectAnswer: '',
             points: 0,
             didAnswerCorrectly: '',
-            timer: 0
+            timer: 0,
+            disableTime: 4000
         };
     }
 
@@ -26,7 +27,7 @@ class App extends Component {
 
     startRound() {
         this.setState({
-            timer: 300
+            timer: 30
         });
         this.timerID = setInterval(
             () => this.tick(),
@@ -36,9 +37,8 @@ class App extends Component {
 
     tick = () => {
         var timer = this.state.timer;
-        console.log(timer); // @todo: remove
+        console.log(timer);
         if (timer === 0) {
-            // time out! show component and stuff
             clearInterval(this.timerID);
             return;
         }
@@ -48,7 +48,7 @@ class App extends Component {
     }
 
     changePhoto() {
-        var availablePhotos = ['A1', 'B1']; // @todo: fill with photos
+        var availablePhotos = ['A1', 'B1', 'C1', 'D1']; // @todo: fill with photos
         var rand = Math.floor(Math.random() * availablePhotos.length);
         var photo = availablePhotos[rand];
         console.log(photo);
@@ -63,6 +63,11 @@ class App extends Component {
     }
 
     checkAnswer = (e) => {
+        var button = e.target;
+        button.disabled = true;
+        setTimeout(e => {
+            button.disabled = false;
+        }, this.state.disableTime);
         var answer = e.target.textContent;
         if (answer == this.state.currentCorrectAnswer) {
             console.log("Correct answer");
@@ -80,7 +85,7 @@ class App extends Component {
             this.setState({
                 didAnswerCorrectly: ''
             })
-        }, 3000);
+        }, this.state.disableTime);
     }
 
     showAnswer(correct) {
@@ -132,14 +137,14 @@ class Container extends Component {
         super(props);
     }
     render() {
-        var backgroundPhoto = "./photos/" + this.props.photo + ".png";
-        var backgroundPhotoBallRevealed = "./photos/" + this.props.photoRevealed + ".png";
+        var backgroundPhoto = "./photos/" + this.props.photo + ".jpg";
+        var backgroundPhotoBallRevealed = "./photos/" + this.props.photoRevealed + ".jpg";
         return <div className="Container" style={{backgroundImage: "url(" + require(`${backgroundPhoto}`) + ")"}}>
             { this.props.answer === true &&
-                <div className='MessageBox' style={{backgroundImage: "url(" + require(`${backgroundPhotoBallRevealed}`) + ")"}}>{'Correct'}</div>
+                <div className='MessageBox AnswerCorrect' style={{backgroundImage: "url(" + require(`${backgroundPhotoBallRevealed}`) + ")"}}></div>
             }
             { this.props.answer === false &&
-                <div className='MessageBox' style={{backgroundImage: "url(" + require(`${backgroundPhotoBallRevealed}`) + ")"}}>{'Incorrect'}</div>
+                <div className='MessageBox AnswerIncorrect' style={{backgroundImage: "url(" + require(`${backgroundPhotoBallRevealed}`) + ")"}}></div>
             }
         </div>
     }
@@ -149,10 +154,10 @@ class Container extends Component {
 function Controls(props) {
     return (
         <div className="ControlsContainer">
-            <a className="ControlsButton" onClick={props.onClick}>1</a>
-            <a className="ControlsButton" onClick={props.onClick}>2</a>
-            <a className="ControlsButton" onClick={props.onClick}>3</a>
-            <a className="ControlsButton" onClick={props.onClick}>4</a>
+            <button className="ControlsButton" onClick={props.onClick}>1</button>
+            <button className="ControlsButton" onClick={props.onClick}>2</button>
+            <button className="ControlsButton" onClick={props.onClick}>3</button>
+            <button className="ControlsButton" onClick={props.onClick}>4</button>
         </div>
     )
 }
