@@ -48,7 +48,7 @@ class App extends Component {
     }
 
     changePhoto() {
-        var availablePhotos = ['A1', 'B1', 'C1', 'D1']; // @todo: fill with photos
+        var availablePhotos = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1', 'M1', 'N1', 'O1', 'P1', 'R1', 'S1', 'T1'];
         var rand = Math.floor(Math.random() * availablePhotos.length);
         var photo = availablePhotos[rand];
         console.log(photo);
@@ -102,13 +102,14 @@ class App extends Component {
 
     // Save username & score to localHost and restart the game
     restartGame = (inputValue) => {
+        var username = inputValue.toString();
         var points = parseInt(this.state.points);
-        if (localStorage.getItem(inputValue)) {
+        if (localStorage.getItem('spot-the-ball-' + inputValue)) {
             if (points > parseInt(localStorage.getItem(inputValue))) {
-                localStorage.setItem(inputValue, points);
+                localStorage.setItem('spot-the-ball-' + inputValue, points);
             }
         } else {
-            localStorage.setItem(inputValue, points);
+            localStorage.setItem('spot-the-ball-' + inputValue, points);
         }
         this.setState({
             points: 0,
