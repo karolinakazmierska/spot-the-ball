@@ -27,7 +27,7 @@ class App extends Component {
 
     startRound() {
         this.setState({
-            timer: 30
+            timer: 3
         });
         this.timerID = setInterval(
             () => this.tick(),
@@ -200,6 +200,54 @@ class GameOver extends Component {
                 <div>Provide your username if you want to save your score:</div>
                 <input value={this.state.inputValue} onChange={this.updateInputValue} />
                 <button onClick={this.handleClick}>Save & continue playing</button>
+                <Scoreboard />
+            </div>
+        )
+    }
+}
+
+class Scoreboard extends Component {
+    constructor() {
+        super();
+    }
+
+    displayUsernames = () => {
+        const keys = Object.keys(localStorage);
+        var users = keys.filter(key => key.includes('spot-the-ball-'));
+        // sort the users array
+        const filtered = Object.keys(localStorage)
+            .filter(key => key.includes('spot-the-ball-'))
+            .reduce((obj, key) => {
+                obj[key] = localStorage[key];
+                return obj;
+            }, {});
+        console.log(filtered)
+
+        var usernameByScore = [];
+        for (var username in filtered) {
+            usernameByScore.push([username, filtered[username]]);
+        }
+        usernameByScore.sort(function(a, b) {
+            return b[1] - a[1];
+        });
+        console.log(usernameByScore);
+
+        return (
+            <ul>
+                {usernameByScore.map((user, index) => <li>
+                    <span>{index+1 + '. ' + user[0].slice(14,user[0].length) + ': '}</span>
+                    <span>{user[1]}</span>
+                </li>)}
+            </ul>
+        )
+
+    }
+
+    render() {
+        return (
+            <div className="Scoreboard">
+                <h1>Leadership board</h1>
+                {this.displayUsernames()}
             </div>
         )
     }
